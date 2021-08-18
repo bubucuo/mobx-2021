@@ -8,7 +8,7 @@
 
 **mobx-react**：MobX与React的绑定库，提供observer等API的库。
 
-**mobx-react-lite**：MobX与React的绑定库，提供observer等API的库，但是相当于是mobx-react的精简版，不支持类组件。
+**mobx-react-lite**：MobX与React的绑定库，提供observer等API的库，但是相当于是mobx-react的精简版。
 
 > mobx- react vs mobx-react-lite
 >
@@ -72,56 +72,47 @@ MobX 不会用它自己的规则来限制你，它可以让你在任意 UI 框�
 
 ### 示例
 
+store/timer.js
+
+```js
+import { makeAutoObservable } from "mobx";
+
+class Timer {
+  sec = 0;
+  constructor() {
+    makeAutoObservable(this);
+  }
+  add() {
+    this.sec += 1;
+  }
+}
+
+const timer = new Timer();
+
+export default timer;
+```
+
+
+
 App.js
 
+React 组件的 `observer` 包装会自动侦测到依赖于 observable `timer.secondsPassed` 的渲染——即使这种依赖关系没有被明确定义出来。 响应性系统会负责在未来*恰好那个*字段被更新的时候将组件重新渲染。
+
+每个事件（`onClick` 或 `setInterval`）都会调用一个用来更新 *observable 状态* `myTimer.secondsPassed` 的 *action*（`myTimer.create` 或 `myTimer.reset`）。Observable 状态的变更会被精确地传送到 `TimerView` 中所有依赖于它们的*计算*和*副作用*里。
+
 ```jsx
-import { observer } from "mobx-react";
+import { observer } from "mobx-react-lite";
 import timer from "./store/timer";
 
 export default observer(function App(props) {
   return (
     <div>
       <h3>App</h3>
-      <button onClick={() => timer.reset()}>
-        已过秒数：{timer.secondsPassed}
-      </button>
+      <button onClick={() => timer.add()}>{timer.sec}</button>
     </div>
   );
 });
 ```
-
-store/timer.js
-
-```js
-import { makeAutoObservable } from "mobx";
-
-// 对应用状态进行建模。
-class Timer {
-  secondsPassed = 0;
-
-  constructor() {
-    makeAutoObservable(this);
-  }
-
-  increase() {
-    this.secondsPassed += 1;
-  }
-
-  reset() {
-    this.secondsPassed = 0;
-  }
-}
-
-const timer = new Timer();
-
-setInterval(() => {
-  timer.increase();
-}, 1000);
-
-export default timer;
-```
-
-
 
 
 
