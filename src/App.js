@@ -1,10 +1,13 @@
+// import ChildPage from "./pages/ChildPage";
+// import ObservableStatePage from "./pages/ObservableStatePage";
 import TodoListPage from "./pages/TodoListPage";
 
 export default function App(props) {
   return (
     <div>
-      <h3>App</h3>
       <TodoListPage />
+      {/* <ObservableStatePage /> */}
+      {/* <ChildPage /> */}
     </div>
   );
 }
