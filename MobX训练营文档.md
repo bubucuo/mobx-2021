@@ -76,7 +76,7 @@ MobX区分了应用程序中的以下三个概念：
 
 **state** 是驱动应用的数据。
 
-在这里，你可以用任何你需要的数据结构来存储state，如普通对象(plain objects)、数组、类、循环数据结构引用。 只要确保所有会随时间流逝而改变的属性打上 `observable` 的标记即可，这样mobx才可以追踪它们。
+在这里，你可以用任何你需要的数据结构来存储state，如普通对象(plain objects)、数组、类、循环数据结构或者引用。 只要确保所有会随时间流逝而改变的属性打上 `observable` 的标记即可，这样mobx才可以追踪它们。
 
 ```javascript
 import { makeObservable, observable, action } from "mobx";
