@@ -1,10 +1,10 @@
-# MobX训练营文档（MobX6）
+# MobX训练营文档
 
 [TOC]
 
 ## 关于库
 
-**mobx**：提供observable、action、computed、makeObservable、makeAutoObservable等API的库，类比redux。
+**mobx**：提供observable、action、computed、makeObservable、makeAutoObservable等API的库。
 
 **mobx-react**：MobX与React的绑定库，提供observer等API的库。
 
@@ -141,19 +141,33 @@ MobX新手很容易过量使用reactions，所以一定记住这个黄金法则�
 如下面，`unfinishedTodoCount`就是基于`observable`的`todos`计算出来的，所以把它标记为`computed`。
 
 ```jsx
-import { makeObservable, observable, computed } from "mobx";
+import { action, computed, makeObservable, observable } from "mobx";
+import Todo from "./Todo";
 
 class TodoList {
   todos = [];
-  get unfinishedTodoCount() {
-    return this.todos.filter((todo) => !todo.finished).length;
-  }
   constructor(todos) {
     makeObservable(this, {
       todos: observable,
+      add: action,
+      del: action,
       unfinishedTodoCount: computed,
     });
     this.todos = todos;
+  }
+
+  add(title) {
+    this.todos.push(new Todo(title));
+  }
+
+  del(id) {
+    this.todos = this.todos.filter((todo) => id !== todo.id);
+  }
+
+  // 未完成任务计算
+  get unfinishedTodoCount() {
+    console.log("www"); //sy-log
+    return this.todos.filter((todo) => !todo.finished).length;
   }
 }
 
