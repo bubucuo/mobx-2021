@@ -1,9 +1,9 @@
-import TodoListPage from "./pages/TodoListPage";
+import UserPage from "./pages/UserPage";
 
 export default function App(props) {
   return (
     <div>
-      <TodoListPage />
+      <UserPage />
     </div>
   );
 }
